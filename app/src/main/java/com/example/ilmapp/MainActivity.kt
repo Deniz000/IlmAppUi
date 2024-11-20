@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             // Bottom Navigation sadece home_graph içindeki fragment'lerde görünsün
             if (destination.id == R.id.navigation_home ||
-                destination.id == R.id.navigation_dashboard ||
-                destination.id == R.id.navigation_notifications) {
+                destination.id == R.id.navigation_docs ||
+                destination.id == R.id.navigation_profile) {
                 bottomNavigationView.visibility = View.VISIBLE
                 supportActionBar?.show()
             } else {
