@@ -9,8 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.ilmapp.databinding.ActivityMainBinding
@@ -19,30 +22,46 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var splashScreen:SplashScreen
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         splashScreen = installSplashScreen()
         splashAnimation()
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.navView
+        bottomNavigationView = binding.bottomNavView
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        navController = navHostFragment.navController
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
-        )
-//
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-//        navView.setupWithNavController(navController)
+        setupBottomNav()
+
+    }
+    private fun setupBottomNav() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            // Bottom Navigation sadece home_graph içindeki fragment'lerde görünsün
+            if (destination.id == R.id.navigation_home ||
+                destination.id == R.id.navigation_dashboard ||
+                destination.id == R.id.navigation_notifications) {
+                bottomNavigationView.visibility = View.VISIBLE
+            } else {
+                bottomNavigationView.visibility = View.GONE
+            }
+        }
+
+        // BottomNavigationView'i NavController'a bağla
+        bottomNavigationView.setupWithNavController(navController)
+    }
+    private fun initViews(){
+
     }
 
-    fun splashAnimation(){
+
+    private fun initEvent(){
+
+    }
+    private fun splashAnimation(){
         splashScreen.setOnExitAnimationListener { splashScreenView ->
             // ObjectAnimator ile animasyonu ayarlıyoruz
             val slideUp = ObjectAnimator.ofFloat(

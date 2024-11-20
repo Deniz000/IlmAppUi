@@ -3,6 +3,4 @@
         <item name="android:windowSplashScreenBackground" tools:targetApi="s">#FFFFFF</item>
         <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@drawable/logo</item>
     </style>
-
-
 </resources>

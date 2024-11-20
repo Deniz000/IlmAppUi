@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <style name="CustomButtonStyle">
+        <item name="android:background">@drawable/rounded_button</item> <!-- Arka plan olarak drawable -->
+        <item name="android:textColor">#FFFFFF</item> <!-- Yazı rengi -->
+        <item name="android:layout_margin">16dp</item> <!-- Dış margin / genel sayfaya eklenecek -->
+
+        <!--        <item name="android:fontFamily">@font/poppins</item> &lt;!&ndash; Yazı tipi &ndash;&gt;-->
+    </style>
+</resources>

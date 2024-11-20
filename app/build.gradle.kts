@@ -58,7 +58,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx) // LiveData Kotlin Extensions
     implementation(libs.androidx.lifecycle.viewmodel.ktx) // ViewModel Kotlin Extensions
     implementation(libs.androidx.navigation.fragment.ktx) // Navigation Component
-    implementation(libs.androidx.navigation.ui.ktx) // Navigation UI Extensions
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.annotation) // Navigation UI Extensions
     testImplementation(libs.junit) // JUnit test framework
     androidTestImplementation(libs.androidx.junit) // JUnit test framework for Android
     androidTestImplementation(libs.androidx.espresso.core) // Espresso for UI testing
