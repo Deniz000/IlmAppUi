@@ -3,10 +3,9 @@
     <!-- Ortak EditText Stili -->
     <style name="CustomEditTextStyle">
         <item name="android:background">@drawable/textview_background</item> <!-- Arka plan -->
-        <item name="android:padding">10dp</item> <!-- İç padding -->
+        <item name="android:padding">@dimen/size_md</item> <!-- İç padding -->
         <item name="android:textColor">#373643</item> <!-- Giriş metni rengi -->
         <item name="android:hint">#373643</item> <!-- Hint metni rengi -->
-        <item name="android:textSize">16sp</item> <!-- Metin boyutu -->
-        <item name="android:layout_margin">16dp</item> <!-- Dış margin / genel sayfaya eklenecek -->
+        <item name="android:textSize">@dimen/font_size_md</item> <!-- Metin boyutu -->
     </style>
 </resources>

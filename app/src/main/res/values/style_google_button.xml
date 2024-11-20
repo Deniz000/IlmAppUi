@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="GoogleButtonStyle">
+        <item name="android:background">@drawable/button_social</item> <!-- Arka plan olarak drawable -->
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:paddingHorizontal" tools:ignore="NewApi">@dimen/size_lg</item>
+        <!--        <item name="android:fontFamily">@font/poppins</item> &lt;!&ndash; Yazı tipi &ndash;&gt;-->
+    </style>
+</resources>

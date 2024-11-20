@@ -45,7 +45,9 @@ class MainActivity : AppCompatActivity() {
                 destination.id == R.id.navigation_dashboard ||
                 destination.id == R.id.navigation_notifications) {
                 bottomNavigationView.visibility = View.VISIBLE
+                supportActionBar?.show()
             } else {
+                supportActionBar?.hide()
                 bottomNavigationView.visibility = View.GONE
             }
         }
