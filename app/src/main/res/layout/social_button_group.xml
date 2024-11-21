@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/button_group"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:layout_marginTop="@dimen/space_btw_items_small"
+        tools:ignore="SmallSp" />
+
+    <TextView
+        android:id="@+id/txt_useGoogle"
+        android:gravity="center"
+        android:textSize="@dimen/font_size_lg"
+        android:textColor="@color/dark_green"
+        android:text="@string/or"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_btw_items_small"/>
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_enter_with_google"
+            style="@style/RoundedButton"
+            android:layout_margin="@dimen/size_sm"
+            android:drawableTop="@drawable/google_icon"
+            android:drawableTint="@color/dark_green"/>
+
+        <Button
+            android:id="@+id/btn_enter_with_facebook"
+            style="@style/RoundedButton"
+            android:layout_margin="@dimen/size_sm"
+            android:drawableTop="@drawable/facebook_without"
+            android:drawableTint="@color/dark_green" />
+    </LinearLayout>
+</LinearLayout>

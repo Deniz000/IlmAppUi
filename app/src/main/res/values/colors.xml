@@ -4,6 +4,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="light_black">#373643</color>
+    <color name="fifty_percent_light_black">#80373643</color>
     <color name="white">#FFFFFFFF</color>
     <color name="purple">#7482BB</color>
     <color name="blue">#68C7FB</color>

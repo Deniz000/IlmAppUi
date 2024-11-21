@@ -5,90 +5,120 @@
     android:paddingHorizontal="@dimen/fragment_horizontal_margin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/app_bar_height"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".ui.login.RegisterFragment">
 
     <ImageButton
-        android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
         android:layout_gravity="start"
-        android:backgroundTint="#00FFFFFF"
-        android:contentDescription="@string/logo_description"
+        android:background="#00FFFFFF"
+        android:importantForAccessibility="no"
         android:src="@drawable/logo_on_left"
         tools:src="@drawable/logo_on_left" />
 
     <TextView
-        android:id="@+id/txt_welcome"
-        android:text="@string/welcome"
-        android:textSize="36sp"
+        android:id="@+id/txt_create_your_account"
+        android:text="@string/create_your_account"
+        android:textSize="30sp"
         android:fontFamily="@font/kodchasan_bold"
         android:textColor="@color/light_black"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_btw_items"/>
 
     <EditText
-        android:id="@+id/edt_username_register"
+        android:id="@+id/edt_regiser_username"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:drawableEnd="@drawable/profile"
+        android:drawableTint="@color/teal_700"
+        android:drawablePadding="10dp"
         style="@style/CustomEditTextStyle"
         android:autofillHints="gul@gmail.com"
         android:hint="@string/username"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
-        android:layout_marginTop="@dimen/space_btw_items_small"
-        android:layout_marginBottom="@dimen/space_btw_items_small"/>
+        android:layout_marginTop="@dimen/space_btw_items"/>
     <EditText
-        android:id="@+id/edt_email_register"
+        android:id="@+id/edt_register_email"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:drawableEnd="@drawable/email"
+        android:drawablePadding="10dp"
         style="@style/CustomEditTextStyle"
         android:autofillHints="gul@gmail.com"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
-        android:layout_marginTop="@dimen/space_btw_items_small"
-        android:layout_marginBottom="@dimen/space_btw_items_small"/>
+        android:layout_marginTop="@dimen/space_btw_items"/>
     <EditText
-        android:id="@+id/edt_password_register"
+        android:id="@+id/edt_register_password"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:drawableEnd="@drawable/show_password"
+        android:drawablePadding="10dp"
         style="@style/CustomEditTextStyle"
         android:autofillHints="gul@gmail.com"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
-        android:layout_marginTop="@dimen/space_btw_items_small"
-        android:layout_marginBottom="@dimen/space_btw_items_small"/>
+        android:layout_marginTop="@dimen/space_btw_items"/>
     <EditText
-        android:id="@+id/edt_password_again"
+        android:id="@+id/edt_register_password_again"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:drawableEnd="@drawable/show_password"
+        android:drawablePadding="10dp"
         style="@style/CustomEditTextStyle"
         android:autofillHints="gul@gmail.com"
         android:hint="@string/password_again"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
-        android:layout_marginTop="@dimen/space_btw_items_small"
-        android:layout_marginBottom="@dimen/space_btw_items_small"/>
-
+        android:layout_marginTop="@dimen/space_btw_items"/>
+    <CheckBox
+        android:height="48dp"
+        android:id="@+id/chck_remember_me"
+        android:text="@string/remember_me"
+        android:textColor="@color/dark_green"
+        android:focusedSearchResultHighlightColor="@color/dark_green"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="UnusedAttribute"
+        />
     <Button
         android:id="@+id/btn_register"
         style="@style/CustomButtonStyle"
         android:text="@string/action_sign_in"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="@dimen/space_btw_items" />
-        <CheckBox
-            android:height="48dp"
-            android:id="@+id/chck_remember_me"
-            android:text="@string/remember_me"
-            android:textColor="@color/dark_green"
-            android:focusedSearchResultHighlightColor="@color/dark_green"
+        android:layout_marginTop="@dimen/space_btw_items"
+        android:layout_marginBottom="@dimen/space_btw_items"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:text="@string/you_already_have_an_account"
+            android:textColor="@color/fifty_percent_light_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txt_go_to_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:ignore="UnusedAttribute" />
+            android:layout_marginStart="@dimen/size_xs"
+            android:text="@string/login_text"
+            android:textColor="@color/dark_green"
+            android:textStyle="bold" />
+    </LinearLayout>
 
+    <com.example.ilmapp.ui.login.ButtonGroupView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 
 </LinearLayout>

@@ -19,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.ilmapp.databinding.FragmentRegisterBinding
 
 import com.example.ilmapp.R
+import com.example.yourapp.views.PasswordEditText
 
 class RegisterFragment : Fragment() {
 
@@ -26,6 +27,8 @@ private var _binding: FragmentRegisterBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private var isPasswordVisible = false
+    private var isPasswordAgainVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,9 +43,20 @@ private var _binding: FragmentRegisterBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val btn = binding.btnRegister
-        btn.setOnClickListener {
+        val passwordUtils = PasswordEditText(requireContext(), null)
+        val btnRegister = binding.btnRegister
+        val gotoLogin = binding.txtGoToLogin
+        val editTextPassword = binding.edtRegisterPassword
+        val editTextPasswordAgain = binding.edtRegisterPasswordAgain
+
+        btnRegister.setOnClickListener {
             findNavController().navigate(R.id.action_registerFragment_home)
         }
+
+        gotoLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
+        passwordUtils.setPasswordVisibility(editTextPassword, isPasswordVisible)
+        passwordUtils.setPasswordVisibility(editTextPasswordAgain, isPasswordAgainVisible)
 
     }}

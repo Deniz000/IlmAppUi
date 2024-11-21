@@ -6,13 +6,13 @@
     android:padding="@dimen/fragment_vertical_margin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/app_bar_height"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".ui.login.LoginFragment">
 
     <ImageButton
-        android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
         android:layout_gravity="start"
         android:background="#00FFFFFF"
         android:importantForAccessibility="no"
@@ -22,30 +22,34 @@
     <TextView
         android:id="@+id/txt_welcome"
         android:text="@string/welcome"
-        android:textSize="40sp"
+        android:textSize="30sp"
         android:fontFamily="@font/kodchasan_bold"
         android:textColor="@color/light_black"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_btw_items"/>
 
     <EditText
         android:id="@+id/edt_login_email"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:drawableEnd="@drawable/email"
+        android:drawablePadding="10dp"
         style="@style/CustomEditTextStyle"
         android:autofillHints="gul@gmail.com"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
-        android:layout_marginTop="@dimen/space_btw_items"
-        android:layout_marginBottom="@dimen/space_btw_items"/>
+        android:layout_marginTop="@dimen/space_btw_items"/>
     <EditText
         android:id="@+id/edt_login_password"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:drawableEnd="@drawable/show_password"
+        android:drawablePadding="10dp"
         style="@style/CustomEditTextStyle"
         android:autofillHints="gul@gmail.com"
-        android:hint="@string/password_again"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
         android:layout_marginTop="@dimen/space_btw_items"/>
@@ -68,32 +72,28 @@
         android:layout_marginTop="@dimen/space_btw_items"
         android:layout_marginBottom="@dimen/space_btw_items"/>
 
-    <com.google.android.material.divider.MaterialDivider
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1sp"
-        tools:ignore="SmallSp"
-        android:layout_marginTop="@dimen/space_btw_items_small"/>
-
-    <TextView
-        android:id="@+id/txt_useGoogle"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="@dimen/font_size_lg"
-        android:textColor="@color/dark_green"
-        android:text="@string/or"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_btw_items_small"
-        android:layout_marginBottom="@dimen/space_btw_items_small"/>
-
-    <Button
-        android:id="@+id/btn_enter_with_google"
-        style="@style/GoogleButtonStyle"
-        android:layout_gravity="center"
-        android:text="@string/continue_with_google"
+        android:orientation="horizontal">
+    <TextView
+        android:text="@string/don_t_you_have_an_account"
+        android:textColor="@color/fifty_percent_light_black"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_btw_items_small"
-        android:layout_marginBottom="@dimen/space_btw_items_small"
-        />
+        android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txt_go_to_signin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_xs"
+            android:text="@string/action_sign_in"
+            android:textColor="@color/dark_green"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <com.example.ilmapp.ui.login.ButtonGroupView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnticipateInterpolator
+import androidx.activity.OnBackPressedCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
@@ -54,6 +55,18 @@ class MainActivity : AppCompatActivity() {
 
         // BottomNavigationView'i NavController'a bağla
         bottomNavigationView.setupWithNavController(navController)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val currentFragment = navController.currentDestination?.id
+                if (currentFragment == R.id.navigation_home) {
+                    // HomeFragment'teyken geri tuşuna basıldığında çıkış yap
+                    finish() // Uygulamayı kapat
+                } else {
+                    isEnabled = false
+                    onBackPressed()
+                }
+            }
+        })
     }
     private fun initViews(){
 
