@@ -1,19 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.home.HomeFragment">
-
-    <Button
-        style="@style/CustomButtonStyle"
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/vintage"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Tıklayın"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="431dp"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="match_parent"
+    android:padding="@dimen/default_padding">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            tools:context=".ui.home.HomeFragment">
+
+            <TextView
+                android:id="@+id/tvUpcomingLessons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:text="@string/upcoming_lessons"
+                android:textStyle="bold"
+                android:textSize="@dimen/size_lg"
+                android:layout_marginBottom="@dimen/default_padding"
+                android:fontFamily="@font/kodchasan_semi_bold"
+                tools:ignore="SpUsage" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/dashboard_background"
+                android:paddingBottom="@dimen/space_btw_items"
+                android:paddingStart="@dimen/space_btw_items"
+                android:paddingTop="@dimen/space_btw_items"
+                tools:ignore="RtlSymmetry">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/etSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:queryHint="@string/search"
+                        app:iconifiedByDefault="false"
+                        android:fontFamily="@font/kodchasan_regular"
+                        android:layout_marginEnd="@dimen/space_btw_items"
+                        android:background="@drawable/search_background" />
+                </LinearLayout>
+
+                <!-- RecyclerView: Ders Listesi -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewLessons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_btw_items"
+                    android:clipToPadding="false"
+                    android:clipChildren="false" />
+
+            </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginVertical="48dp"
+                    android:id="@+id/recyclerViewButtons"
+                    android:layout_marginTop="@dimen/space_btw_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>

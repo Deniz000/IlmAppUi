@@ -43,4 +43,6 @@
     <string name="share_icon">share_icon</string>
     <string name="michoel_ecample_com">michoel@ecample.com</string>
     <string name="personal">Personal</string>
+    <string name="icon">Icon</string>
+    <string name="default_text">Default Text</string>
 </resources>
