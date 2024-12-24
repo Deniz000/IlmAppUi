@@ -18,7 +18,7 @@ object RetrofitClient {
 
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
-            .addInterceptor(AuthInterceptor(tokenManager)) // Interceptor'u ekliyoruz
+            .addInterceptor(AuthInterceptor(tokenManager))
             .build()
     }
 
@@ -32,7 +32,7 @@ object RetrofitClient {
     val authenticatedApi: AuthenticationApi by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(okHttpClient) // AuthInterceptor burada devreye girer
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(AuthenticationApi::class.java)

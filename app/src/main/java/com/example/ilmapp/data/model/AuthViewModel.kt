@@ -8,9 +8,14 @@ import com.example.ilmapp.data.api.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 class AuthViewModel : ViewModel() {
     private val _registerResponse = MutableLiveData<RegisterResponse>()
     val registerResponse: LiveData<RegisterResponse> get() = _registerResponse
+
+
+    private val _loginResponse = MutableLiveData<LoginResponse>()
+    val loginResponse: LiveData<LoginResponse> get() = _loginResponse
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
@@ -25,7 +30,7 @@ class AuthViewModel : ViewModel() {
             ) {
                 Log.d("RegisterResponse", "Response: ${response.body()}")
                 if (response.isSuccessful) {
-                    _registerResponse.value = response.body() // Yanıtı gözlemlemek için
+                    _registerResponse.value = response.body()
                 } else {
                     _error.value = "Error: ${response.code()}"
                 }
@@ -35,6 +40,26 @@ class AuthViewModel : ViewModel() {
                 _error.value = "Failure: ${t.message} $call"
             }
         })
+    }fun loginUser(request: LoginRequest) {
+        val call = RetrofitClient.instance.loginUser(request)
+
+        call.enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(
+                call: Call<LoginResponse>,
+                response: Response<LoginResponse>
+            ) {
+                if (response.isSuccessful) {
+                    _loginResponse.value = response.body()
+                } else {
+                    _error.value = "Error: ${response.code()}"
+                }
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                _error.value = "Failure: ${t.message} $call"
+            }
+        })
     }
+
 
 }

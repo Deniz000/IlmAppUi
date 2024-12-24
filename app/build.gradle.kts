@@ -70,5 +70,5 @@ dependencies {
     implementation (libs.circleimageview)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-
+    implementation(libs.library)
 }

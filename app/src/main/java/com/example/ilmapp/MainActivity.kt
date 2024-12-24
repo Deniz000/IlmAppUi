@@ -12,6 +12,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.ilmapp.config.PreferencesManager
 import com.example.ilmapp.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -32,8 +33,21 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         navController = navHostFragment.navController
 
+        navigateBasedOnSession()
+
         setupBottomNav()
 
+    }
+
+    private fun navigateBasedOnSession() {
+        val isLoggedIn = PreferencesManager.getSessionData(this).second
+        if (isLoggedIn) {
+            // Eğer oturum açık ise Home'a yönlendir
+            navController.navigate(R.id.navigation_home)
+        } else {
+            // Eğer oturum kapalı ise Login'e yönlendir
+            navController.navigate(R.id.loginFragment)
+        }
     }
     private fun setupBottomNav() {
         navController.addOnDestinationChangedListener { _, destination, _ ->

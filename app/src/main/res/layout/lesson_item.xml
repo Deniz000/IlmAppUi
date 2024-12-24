@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="140dp"
-    android:layout_height="210dp"
+    android:layout_height="180dp"
     android:clickable="true"
     android:focusable="true"
     app:cardElevation="4dp"
@@ -16,15 +16,6 @@
         android:background="@drawable/card_background"
         android:padding="@dimen/default_padding">
 
-        <ImageView
-            android:id="@+id/ivLessonIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="1dp"
-            android:contentDescription="@string/call_chat_icon"
-            android:src="@drawable/call_chat_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvLessonTitle"
@@ -34,13 +25,13 @@
             android:ellipsize="end"
             android:fontFamily="@font/kodchasan_regular"
             android:maxLines="2"
-            android:text="Kuran Dersi"
+            android:text="@string/welcome"
             android:textColor="@color/dark_green"
             android:textSize="@dimen/font_size_lg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivLessonIcon" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"

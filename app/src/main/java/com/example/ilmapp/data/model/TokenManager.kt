@@ -7,7 +7,7 @@ class TokenManager(context: Context) {
     private val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     fun saveToken(token: String) {
-        Log.d("Token", "Token: $token")
+        Log.e("Token alınıyor", "Token: $token")
         prefs.edit().putString("jwt_token", token).apply()
     }
 

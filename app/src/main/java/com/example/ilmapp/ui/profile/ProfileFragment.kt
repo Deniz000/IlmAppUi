@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.ilmapp.R
 import com.example.ilmapp.databinding.FragmentProfileBinding
 
@@ -32,8 +31,8 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val profileViewModel =
-            ViewModelProvider(this).get(ProfileViewModel::class.java)
+//        val profileViewModel =
+//            ViewModelProvider(this).get(ProfileViewModel::class.java)
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root

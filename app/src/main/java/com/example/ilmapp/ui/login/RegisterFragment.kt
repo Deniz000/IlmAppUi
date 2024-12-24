@@ -1,7 +1,8 @@
 package com.example.ilmapp.ui.login
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
+import com.dd.processbutton.iml.ActionProcessButton
 import com.example.ilmapp.R
+import com.example.ilmapp.config.PreferencesManager
 import com.example.ilmapp.data.api.RetrofitClient
 import com.example.ilmapp.data.model.AuthViewModel
 import com.example.ilmapp.data.model.RegisterRequest
@@ -24,15 +27,14 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val roleViewModel: RoleViewModel by viewModels()
     private lateinit var tokenManager: TokenManager
+    private lateinit var sharedPreferences: SharedPreferences
 
     private val binding get() = _binding!!
     private var isPasswordVisible = false
     private var isPasswordAgainVisible = false
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
@@ -41,12 +43,11 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        RetrofitClient.init(requireContext())
-
         val passwordUtils = PasswordEditText(requireContext(), null)
 
         val gotoLogin = binding.txtGoToLogin
-        val btnRegister = binding.btnRegister
+        val btnRegister: ActionProcessButton = binding.btnSignIn
+        btnRegister.setMode(ActionProcessButton.Mode.PROGRESS)
         val username = binding.edtRegiserUsername
         val email = binding.edtRegisterEmail
         val editTextPassword = binding.edtRegisterPassword
@@ -61,7 +62,14 @@ class RegisterFragment : Fragment() {
 
         radioButton()
 
+        sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        sharedPreferences.getString("username", "Unknown User")
+        sharedPreferences.getString("email", "Unknown Email")
+        sharedPreferences.getString("role", "Unknown Role")
+
         btnRegister.setOnClickListener {
+            RetrofitClient.init(requireContext())
+
             try {
                 if (roleViewModel.selectedRole.value.isNullOrEmpty()) {
                     username.error = "Role is required"
@@ -94,33 +102,38 @@ class RegisterFragment : Fragment() {
                 }
 
                 val registerRequest = RegisterRequest(
-                    userName = username.text.toString(),
-                    email = email.text.toString(),
-                    password = editTextPassword.text.toString(),
-                    matchingPassword = editTextPasswordAgain.text.toString(),
-                    role = roleViewModel.selectedRole.value.toString()
+                    userName = username.text.toString().trim(),
+                    email = email.text.toString().trim(),
+                    password = editTextPassword.text.toString().trim(),
+                    matchingPassword = editTextPasswordAgain.text.toString().trim(),
+                    role = roleViewModel.selectedRole.value.toString().trim()
                 )
+                PreferencesManager.saveUserData(
+                    requireContext(), registerRequest.userName,
+                    registerRequest.email, registerRequest.role
+                )
+                authViewModel.registerResponse.observe(viewLifecycleOwner) { response ->
+                    response?.let {
+                        PreferencesManager.saveSessionData(requireContext(), it.token, true)
+                    }
+                }
 
+                btnRegister.setProgress(0)
+                btnRegister.setProgress(50)
+                btnRegister.setProgress(75)
+                btnRegister.setProgress(100)
+                binding.btnSignIn.setMode(ActionProcessButton.Mode.ENDLESS)
+
+                btnRegister.setProgress(1);
                 authViewModel.postData(registerRequest)
+                findNavController().navigate(R.id.action_registerFragment_home)
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
 
-       authViewModel.registerResponse.observe(viewLifecycleOwner) { response ->
-           response?.let {
-               tokenManager.saveToken(it.token)
-               Log.d("AuthInterceptor", "Token: $it.token")
-               Toast.makeText(requireContext(), "Registration Successful!", Toast.LENGTH_SHORT)
-                   .show()
-               findNavController().navigate(R.id.action_registerFragment_home)
-           }
-       }
-
-       authViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
-           Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-       }
     }
+
     private fun radioButton() {
         binding.radioButtonRole.setOnCheckedChangeListener { _, checkedId ->
             roleViewModel.selectedRole.value = when (checkedId) {
