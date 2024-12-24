@@ -28,6 +28,26 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/space_btw_items"/>
 
+    <RadioGroup
+        android:id="@+id/radioButtonRole"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/radio_teacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/size_md"
+            android:text="@string/teacher"
+            tools:ignore="SpUsage" />
+        <RadioButton
+            android:id="@+id/radio_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/size_md"
+            android:text="@string/student"
+            tools:ignore="SpUsage" />
+    </RadioGroup>
     <EditText
         android:id="@+id/edt_regiser_username"
         android:layout_width="match_parent"

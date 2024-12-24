@@ -5,7 +5,8 @@ plugins {
 
 android {
     namespace = "com.example.ilmapp"
-    compileSdk = 35 // SDK 34, Android 13 için uygun olabilir. Android 12 için 31 kullanabilirsiniz.
+    compileSdk = 35
+    // SDK 34, Android 13 için uygun olabilir. Android 12 için 31 kullanabilirsiniz.
 
     defaultConfig {
         applicationId = "com.example.ilmapp"
@@ -15,6 +16,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        addManifestPlaceholders(
+            mapOf(
+                "auth0Domain" to "@string/com_auth0_domain",
+                "auth0Scheme" to "@string/com_auth0_scheme"
+            )
+        )
     }
 
     buildTypes {
@@ -39,6 +47,7 @@ android {
     buildFeatures {
         viewBinding = true // ViewBinding'i etkinleştir
     }
+    ndkVersion = rootProject.extra["ndkVersion"] as String
 
     // Eğer Android 12'ye özgü özellikler veya ayarlamalar gerekiyorsa, burada ekleyebilirsiniz.
     // Örneğin, "Splash Screen" desteği eklemek için:
@@ -50,7 +59,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx) // Kotlin Extensions
     implementation(libs.androidx.appcompat) // AppCompat kütüphanesi
     implementation(libs.material) // Material Components
@@ -64,4 +72,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit) // JUnit test framework for Android
     androidTestImplementation(libs.androidx.espresso.core) // Espresso for UI testing
     implementation(libs.androidx.core.splashscreen) // Android 12 SplashScreen
+    implementation (libs.circleimageview)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.auth0)
+    implementation(libs.lock)
+
 }

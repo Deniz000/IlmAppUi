@@ -64,14 +64,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-    private fun initViews(){
-
-    }
-
-
-    private fun initEvent(){
-
-    }
     private fun splashAnimation(){
         splashScreen.setOnExitAnimationListener { splashScreenView ->
             // ObjectAnimator ile animasyonu ayarlıyoruz
