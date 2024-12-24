@@ -1,0 +1,93 @@
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/dark_green"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/app_bar_heightx2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_white_background"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:elevation="4dp"
+        android:padding="16dp"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/profile_photo"
+            app:civ_border_color="@color/purple"
+            app:civ_border_width="2dp" />
+
+        <Button
+            android:layout_margin="@dimen/size_lg"
+            android:padding="@dimen/size_md"
+            android:drawablePadding="@dimen/size_md"
+            android:drawableStart="@drawable/edit_icon"
+            android:drawableTint="@color/dark_green"
+            android:text="@string/upload_photo"
+            android:background="@drawable/card_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/profile_username"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableEnd="@drawable/username"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/dark_green"
+            style="@style/CustomEditTextStyle"
+            android:autofillHints="gul@gmail.com"
+            android:hint="@string/username"
+            android:selectAllOnFocus="true"
+            android:layout_marginTop="@dimen/space_btw_items"/>
+
+        <EditText
+            android:id="@+id/profile_email"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableEnd="@drawable/email"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/dark_green"
+            style="@style/CustomEditTextStyle"
+            android:autofillHints="gul@gmail.com"
+            android:hint="@string/email"
+            android:selectAllOnFocus="true"
+            android:layout_marginTop="@dimen/space_btw_items"/>
+
+        <EditText
+            android:id="@+id/profile_password"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableEnd="@drawable/change_password"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/dark_green"
+            style="@style/CustomEditTextStyle"
+            android:autofillHints="gul@gmail.com"
+            android:hint="@string/password"
+            android:selectAllOnFocus="true"
+            android:layout_marginTop="@dimen/space_btw_items"/>
+
+
+        <Button
+            android:layout_margin="@dimen/size_lg"
+            android:padding="@dimen/size_md"
+            android:drawablePadding="@dimen/size_md"
+            android:text="@string/save_changes"
+            android:background="@drawable/card_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>

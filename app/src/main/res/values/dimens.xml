@@ -32,6 +32,7 @@
 
     <!-- AppBar height -->
     <dimen name="app_bar_height">56dp</dimen>
+    <dimen name="app_bar_heightx2">80dp</dimen>
 
     <!-- Image sizes -->
     <dimen name="image_thumb_size">80dp</dimen>

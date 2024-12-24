@@ -49,4 +49,8 @@
     <string name="personal">Personal</string>
     <string name="icon">Icon</string>
     <string name="default_text">Default Text</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="upload_photo">upload photo</string>
 </resources>

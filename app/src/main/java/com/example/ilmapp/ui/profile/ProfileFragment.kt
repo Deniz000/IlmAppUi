@@ -9,15 +9,13 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.ilmapp.R
 import com.example.ilmapp.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     val profileDetails = listOf(
@@ -26,13 +24,14 @@ class ProfileFragment : Fragment() {
         Triple(R.drawable.call2_icon, "Phone Number","Mobile: (209) 555-0104"),
     )
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        val profileViewModel =
-//            ViewModelProvider(this).get(ProfileViewModel::class.java)
+        val profileViewModel =
+            ViewModelProvider(this)[ProfileViewModel::class.java]
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -57,9 +56,8 @@ class ProfileFragment : Fragment() {
             }
 
         }
-        val listView: ListView = binding.lvProfileDetails
+        val listView: ListView = binding.lvProfileItems
         listView.adapter = adapter
-
 
         return root
     }
