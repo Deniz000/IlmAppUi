@@ -5,19 +5,15 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.activity.OnBackPressedCallback
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.ilmapp.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                     finish() // Uygulamayı kapat
                 } else {
                     isEnabled = false
-                    onBackPressed()
+                   // onBackPressed()
                 }
             }
         })
