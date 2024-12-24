@@ -17,12 +17,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        addManifestPlaceholders(
-            mapOf(
-                "auth0Domain" to "@string/com_auth0_domain",
-                "auth0Scheme" to "@string/com_auth0_scheme"
-            )
-        )
+
     }
 
     buildTypes {
@@ -75,7 +70,5 @@ dependencies {
     implementation (libs.circleimageview)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation(libs.auth0)
-    implementation(libs.lock)
 
 }

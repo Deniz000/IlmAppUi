@@ -32,7 +32,7 @@ class AuthViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-                _error.value = "Failure: ${t.message}"
+                _error.value = "Failure: ${t.message} $call"
             }
         })
     }

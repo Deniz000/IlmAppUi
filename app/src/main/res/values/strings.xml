@@ -1,4 +1,8 @@
 <resources>
+    <string name="com_auth0_domain">ilmap.us.auth0.com</string>
+    <string name="com_auth0_scheme">demo</string>
+    <string name="com_auth0_client_id">com_auth0_client_id</string>
+
     <string name="app_name">IlmApp</string>
     <string name="title_home">Home</string>
     <string name="title_docs">Docs</string>
