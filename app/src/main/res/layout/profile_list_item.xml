@@ -1,0 +1,47 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/size_md"
+    android:background="@drawable/people_lite_background"
+    android:paddingHorizontal="@dimen/size_lg"
+    android:paddingVertical="@dimen/size_md">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="UseCompoundDrawables">
+
+    <ImageView
+        android:id="@+id/pfIcon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/email"
+        android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/txtPfInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/kodchasan_bold"
+            android:text="@string/email"
+            android:textSize="@dimen/size_lg"
+            android:textColor="@color/light_black"
+            tools:ignore="SpUsage" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtPfDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/michoel_ecample_com"
+        android:textSize="@dimen/size_md"
+        android:textColor="@color/light_black"
+        android:layout_marginBottom="@dimen/size_md"
+        android:layout_marginStart="@dimen/size_lg"
+        tools:ignore="SpUsage" />
+</LinearLayout>

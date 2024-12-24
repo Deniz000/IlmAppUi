@@ -23,4 +23,24 @@
     <string name="logo_description">logo description</string>
     <string name="don_t_you_have_an_account">Don\'t you have an Account?</string>
     <string name="you_already_have_an_account">You already have an Account?</string>
+    <string name="teacher">Teacher</string>
+    <string name="student">Student</string>
+    <string name="back_button">back</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="change_password">Change Password</string>
+    <string name="upcoming_lessons">Upcoming Lessons</string>
+    <string name="search">Search…</string>
+    <string name="clock_icon">Clock Icon</string>
+    <string name="people_icon">People Icon</string>
+    <string name="resources">resources</string>
+    <string name="courses">Courses</string>
+    <string name="people">people</string>
+    <string name="calendar">calendar</string>
+    <string name="call_chat_icon">call chat icon\n</string>
+    <string name="whatsapp_icon">whatsapp icon</string>
+    <string name="jenny_wilson">Jenny Wilson</string>
+    <string name="sr_ui_ux_designer">Sr. UI/UX Designer</string>
+    <string name="share_icon">share_icon</string>
+    <string name="michoel_ecample_com">michoel@ecample.com</string>
+    <string name="personal">Personal</string>
 </resources>

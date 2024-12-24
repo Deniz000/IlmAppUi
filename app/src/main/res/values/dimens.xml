@@ -39,8 +39,11 @@
     <!-- Default spacing between sections -->
     <dimen name="default_space">24dp</dimen>
     <dimen name="space_btw_items">16dp</dimen>
-    <dimen name="space_btw_items_small">10dp</dimen>
+    <dimen name="space_btw_items_small">8dp</dimen>
     <dimen name="space_btw_sections">32dp</dimen>
+
+
+    <dimen name="default_padding">16dp</dimen>
 
     <!-- Border radius -->
     <dimen name="border_radius_sm">4dp</dimen>
