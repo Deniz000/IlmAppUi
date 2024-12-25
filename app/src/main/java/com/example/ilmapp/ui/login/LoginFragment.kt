@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ilmapp.R
-import com.example.ilmapp.config.PreferencesManager
 import com.example.ilmapp.data.model.AuthViewModel
 import com.example.ilmapp.data.model.LoginRequest
+import com.example.ilmapp.data.model.TokenManager
 import com.example.ilmapp.databinding.FragmentLoginBinding
 import com.example.yourapp.views.PasswordEditText
 
@@ -22,6 +22,7 @@ class LoginFragment : Fragment() {
     private var isPasswordVisible = false
     private lateinit var password: PasswordEditText
     private val authViewModel: AuthViewModel by viewModels()
+    private lateinit var tokenManager: TokenManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -63,18 +64,15 @@ class LoginFragment : Fragment() {
     private fun loginUser(email: String, password: String) {
         val loginRequest = LoginRequest(email, password)
         authViewModel.loginUser(loginRequest)
-        authViewModel.loginResponse.observe(viewLifecycleOwner) { response ->
-            response?.let {
-                val token = it.token
-                val role = it.role[0]
-                PreferencesManager.saveUserData(
-                    requireContext(), loginRequest.email, loginRequest.password, role
-                )
-                PreferencesManager.saveSessionData(requireContext(), token, true)
+//        authViewModel.response.observe(viewLifecycleOwner) { response ->
+//            response?.let {
+//                val token = it.token
+//                tokenManager.saveToken(token)
+//                PreferencesManager.saveSessionData(requireContext(), tokenManager.getToken()!!, true)
+//            }
+//        }
 
-            }
-        }
-            findNavController().navigate(R.id.action_loginFragment_home)
+        findNavController().navigate(R.id.action_loginFragment_home)
 
     }
 

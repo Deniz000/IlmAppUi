@@ -112,7 +112,7 @@ class RegisterFragment : Fragment() {
                     requireContext(), registerRequest.userName,
                     registerRequest.email, registerRequest.role
                 )
-                authViewModel.registerResponse.observe(viewLifecycleOwner) { response ->
+                authViewModel.response.observe(viewLifecycleOwner) { response ->
                     response?.let {
                         PreferencesManager.saveSessionData(requireContext(), it.token, true)
                     }

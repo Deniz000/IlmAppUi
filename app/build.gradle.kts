@@ -71,5 +71,5 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.library)
-
+    implementation(libs.jwtdecode.v202)
 }

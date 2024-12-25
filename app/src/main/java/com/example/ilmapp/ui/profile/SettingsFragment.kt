@@ -5,18 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.ilmapp.R
+import androidx.fragment.app.viewModels
+import com.example.ilmapp.data.model.AuthViewModel
+import com.example.ilmapp.databinding.FragmentSettingsBinding
+
 class SettingsFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
+    private val authViewModel: AuthViewModel by viewModels()
+
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+    ): View {
+        _binding = FragmentSettingsBinding.inflate(inflater,container,false)
+        val root: View = binding.root
 
+        val btnSave = binding.profileBtnSave
+
+
+        return root
     }
 
 }

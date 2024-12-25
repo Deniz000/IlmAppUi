@@ -80,6 +80,7 @@
 
 
         <Button
+            android:id="@+id/profile_btn_save"
             android:layout_margin="@dimen/size_lg"
             android:padding="@dimen/size_md"
             android:drawablePadding="@dimen/size_md"

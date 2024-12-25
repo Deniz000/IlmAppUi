@@ -29,13 +29,14 @@ object RetrofitClient {
             .build()
             .create(AuthenticationApi::class.java)
     }
-    val authenticatedApi: AuthenticationApi by lazy {
+
+    val authenticatedApi: UserApi by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(AuthenticationApi::class.java)
+            .create(UserApi::class.java)
     }
 
 }
