@@ -10,8 +10,8 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.ilmapp.R
+import com.example.ilmapp.config.PreferencesManager
 import com.example.ilmapp.data.model.AuthViewModel
 import com.example.ilmapp.databinding.FragmentProfileBinding
 
@@ -23,8 +23,8 @@ class ProfileFragment : Fragment() {
 
     val profileDetails = listOf(
         Triple(R.drawable.edit_icon,"Edit", "Your Personal Information"),
-        Triple(R.drawable.email_listv, "Email", "Personal Email: michael@example.com"),
-        Triple(R.drawable.call2_icon, "Phone Number","Mobile: (209) 555-0104"),
+        Triple(R.drawable.email_listv, "Email", "michael@example.com"),
+        Triple(R.drawable.call2_icon, "Phone Number","+90 (209) 555-0104"),
     )
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,8 +33,13 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val btnSettings = binding.btnSettings
+        val profileName = binding.profileName
+        val profileRole = binding.profileEmail
 
+         PreferencesManager.getUserData(requireContext()).let { (username, email, _) ->
+             profileName.text = username
+             profileRole.text = email
+         }
 
         val adapter = object : ArrayAdapter<Triple<Int, String, String>>(
             requireContext(),
@@ -59,11 +64,6 @@ class ProfileFragment : Fragment() {
         val listView: ListView = binding.lvProfileItems
         listView.adapter = adapter
 
-
-
-        btnSettings.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_profile_to_navigation_settings)
-        }
 
         return root
     }
