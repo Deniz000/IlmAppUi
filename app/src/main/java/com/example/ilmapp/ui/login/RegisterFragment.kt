@@ -15,7 +15,7 @@ import com.dd.processbutton.iml.ActionProcessButton
 import com.example.ilmapp.R
 import com.example.ilmapp.config.PreferencesManager
 import com.example.ilmapp.config.PreferencesManager.saveUserData
-import com.example.ilmapp.data.api.RetrofitClient
+import com.example.ilmapp.data.api.RetrofitInstance
 import com.example.ilmapp.data.model.AuthViewModel
 import com.example.ilmapp.data.model.RegisterRequest
 import com.example.ilmapp.data.model.TokenManager
@@ -64,7 +64,7 @@ class RegisterFragment : Fragment() {
         radioButton()
 
         btnRegister.setOnClickListener {
-            RetrofitClient.init(requireContext())
+            RetrofitInstance.init(requireContext())
 
             if(validateInput(username, email, editTextPassword, editTextPasswordAgain)) {
                 try {

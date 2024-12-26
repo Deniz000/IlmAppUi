@@ -10,6 +10,7 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.ilmapp.R
 import com.example.ilmapp.config.PreferencesManager
 import com.example.ilmapp.data.model.AuthViewModel
@@ -57,6 +58,12 @@ class ProfileFragment : Fragment() {
                 icon.setImageResource(iconRes)
                 info.text = textInfo
                 detail.text = textDetail
+                view.setOnClickListener {
+                    when (position) {
+                        0 ->findNavController().navigate(R.id.navigation_settings)
+                        else -> null
+                    }
+                }
                 return view
             }
 

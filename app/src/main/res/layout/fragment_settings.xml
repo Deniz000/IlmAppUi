@@ -7,9 +7,25 @@
     android:background="@color/dark_green"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/app_bar_heightx2"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/app_bar_heightx2"
+            android:layout_weight="1"
+            android:text="@string/edit_profile"
+            android:textColor="@color/vintage"
+            android:fontFamily="@font/kodchasan_bold"
+            android:textSize="@dimen/size_lg"
+            android:gravity="bottom|start"
+            android:paddingStart="@dimen/size_lg"
+            tools:ignore="RtlSymmetry,SpUsage" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +36,14 @@
         android:elevation="4dp"
         android:padding="16dp"
         >
+        <TextView
+            android:gravity="center"
+            android:textSize="25sp"
+            android:fontFamily="@font/kodchasan_medium"
+            android:text="@string/save_and_update_your_information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/size_lg"/>
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="150dp"
@@ -35,6 +59,7 @@
             android:drawableStart="@drawable/edit_icon"
             android:drawableTint="@color/dark_green"
             android:text="@string/upload_photo"
+            android:fontFamily="@font/kodchasan_bold"
             android:background="@drawable/card_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -46,9 +71,11 @@
             android:drawableEnd="@drawable/username"
             android:drawablePadding="10dp"
             android:drawableTint="@color/dark_green"
+
             style="@style/CustomEditTextStyle"
             android:autofillHints="gul@gmail.com"
             android:hint="@string/username"
+            android:inputType="text"
             android:selectAllOnFocus="true"
             android:layout_marginTop="@dimen/space_btw_items"/>
 
@@ -62,8 +89,10 @@
             style="@style/CustomEditTextStyle"
             android:autofillHints="gul@gmail.com"
             android:hint="@string/email"
+            android:inputType="text"
             android:selectAllOnFocus="true"
-            android:layout_marginTop="@dimen/space_btw_items"/>
+            android:layout_marginTop="@dimen/space_btw_items"
+            tools:ignore="TextFields" />
 
         <EditText
             android:id="@+id/profile_password"
@@ -74,7 +103,8 @@
             android:drawableTint="@color/dark_green"
             style="@style/CustomEditTextStyle"
             android:autofillHints="gul@gmail.com"
-            android:hint="@string/password"
+            android:hint="@string/change_password"
+            android:inputType="textPassword"
             android:selectAllOnFocus="true"
             android:layout_marginTop="@dimen/space_btw_items"/>
 
@@ -85,6 +115,7 @@
             android:padding="@dimen/size_md"
             android:drawablePadding="@dimen/size_md"
             android:text="@string/save_changes"
+            android:fontFamily="@font/kodchasan_bold"
             android:background="@drawable/card_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

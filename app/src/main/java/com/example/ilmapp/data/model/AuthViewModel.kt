@@ -1,11 +1,12 @@
 package com.example.ilmapp.data.model
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.auth0.android.jwt.JWT
-import com.example.ilmapp.data.api.RetrofitClient
+import com.example.ilmapp.data.api.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,7 +28,7 @@ class AuthViewModel : ViewModel() {
     val error: LiveData<String> get() = _error
 
     fun postData(request: RegisterRequest) {
-        val call = RetrofitClient.instance.registerUser(request)
+        val call = RetrofitInstance.instance.registerUser(request)
 
         call.enqueue(object : Callback<UserResponse> {
             override fun onResponse(
@@ -36,10 +37,7 @@ class AuthViewModel : ViewModel() {
             ) {
                 Log.d("RegisterResponse", "Response: ${response.body()}")
                 if (response.isSuccessful) {
-                    //bu body de sadece token var
                     _response.value = response.body()
-                    // decde jwt tokenda ise userId ve role'un jwt'den ayrılmış hali var
-                    _userId.value = decodeJwtToken(response.body()?.token!!)
                 } else {
                     _error.value = "Error: ${response.code()}"
                 }
@@ -50,7 +48,7 @@ class AuthViewModel : ViewModel() {
             }
         })
     }fun loginUser(request: LoginRequest) {
-        val call = RetrofitClient.instance.loginUser(request)
+        val call = RetrofitInstance.instance.loginUser(request)
 
         call.enqueue(object : Callback<UserResponse> {
             override fun onResponse(
@@ -59,7 +57,6 @@ class AuthViewModel : ViewModel() {
             ) {
                 if (response.isSuccessful) {
                     _response.value = response.body()
-                    _userId.value =  decodeJwtToken(response.body()?.token!!)
 
                 } else {
                     _error.value = "Error: ${response.code()}"
@@ -74,15 +71,17 @@ class AuthViewModel : ViewModel() {
 
 
 
-    fun getUserProfile(uId: Long) {
-        Log.e("getUserPrfile geldi", "U******* ID: $uId")
-        val call = RetrofitClient.authenticatedApi.getUserInformation(uId)
-        Log.e("getUserInformation geldi", "User ID: $call")
+    fun getUserProfile(context: Context, uId: Long) {
+        Log.e("Profile", "U******* ID: $uId")
+        RetrofitInstance.init(context)
+        val call = RetrofitInstance.authenticatedApi.getUserInformation(uId)
+        Log.e("Profile", "User ID: $call")
 
         call.enqueue(object : Callback<UserProfileResponse> {
             override fun onResponse(call: Call<UserProfileResponse>, response: Response<UserProfileResponse>) {
                 if (response.isSuccessful) {
                     _userInformation.value = response.body()
+                    Log.e("Profile", "BAK BURA ${_userInformation.value}")
                 } else {
                     Log.e("Profile", "Failed to get user profile: ${response.code()}")
                 }
@@ -94,7 +93,7 @@ class AuthViewModel : ViewModel() {
         })
     }
 
-    private fun decodeJwtToken(token: String): Long {
+    fun decodeJwtToken(token: String): Long {
         var userId:Long = 0
         try {
             val jwt = JWT(token)
