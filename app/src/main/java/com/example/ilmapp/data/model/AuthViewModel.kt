@@ -58,13 +58,8 @@ class AuthViewModel : ViewModel() {
                 response: Response<UserResponse>
             ) {
                 if (response.isSuccessful) {
-                    //bu body de sadece token var
                     _response.value = response.body()
-                    Log.e("ProfileFragment", " BURAYA BAK a ********** ${_userId.value}")
-
-                    // decde jwt tokenda ise userId ve role'un jwt'den ayrılmış hali var
                     _userId.value =  decodeJwtToken(response.body()?.token!!)
-                    Log.e("ProfileFragment", " BURAYA BAK b ********** ${_userId.value}")
 
                 } else {
                     _error.value = "Error: ${response.code()}"
@@ -121,7 +116,4 @@ class AuthViewModel : ViewModel() {
         return userId
     }
 
-    fun returnId(){
-       Log.e("ProfileFragment", " BURAYA BAK c ********** ${_userId.value}")
-    }
 }

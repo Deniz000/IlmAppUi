@@ -1,11 +1,10 @@
 package com.example.ilmapp.ui.login
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.dd.processbutton.iml.ActionProcessButton
 import com.example.ilmapp.R
 import com.example.ilmapp.config.PreferencesManager
+import com.example.ilmapp.config.PreferencesManager.saveUserData
 import com.example.ilmapp.data.api.RetrofitClient
 import com.example.ilmapp.data.model.AuthViewModel
 import com.example.ilmapp.data.model.RegisterRequest
@@ -27,7 +27,6 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val roleViewModel: RoleViewModel by viewModels()
     private lateinit var tokenManager: TokenManager
-    private lateinit var sharedPreferences: SharedPreferences
 
     private val binding get() = _binding!!
     private var isPasswordVisible = false
@@ -37,6 +36,8 @@ class RegisterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        tokenManager = TokenManager(requireContext())
+
         return binding.root
     }
 
@@ -62,76 +63,84 @@ class RegisterFragment : Fragment() {
 
         radioButton()
 
-        sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        sharedPreferences.getString("username", "Unknown User")
-        sharedPreferences.getString("email", "Unknown Email")
-        sharedPreferences.getString("role", "Unknown Role")
-
         btnRegister.setOnClickListener {
             RetrofitClient.init(requireContext())
 
-            try {
-                if (roleViewModel.selectedRole.value.isNullOrEmpty()) {
-                    username.error = "Role is required"
-                    return@setOnClickListener
-                }
-                if (username.text.isNullOrEmpty()) {
-                    username.error = "Username is required"
-                    return@setOnClickListener
-                }
+            if(validateInput(username, email, editTextPassword, editTextPasswordAgain)) {
+                try {
+                    val registerRequest = RegisterRequest(
+                        userName = username.text.toString().trim(),
+                        email = email.text.toString().trim(),
+                        password = editTextPassword.text.toString().trim(),
+                        matchingPassword = editTextPasswordAgain.text.toString().trim(),
+                        role = roleViewModel.selectedRole.value.toString().trim()
+                    )
 
-                if (email.text.isNullOrEmpty()) {
-                    email.error = "Email is required"
-                    return@setOnClickListener
-                }
+                    loadingAnimation(btnRegister)
+                    authViewModel.postData(registerRequest)
 
-                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) {
-                    email.error = "Invalid email format"
-                    return@setOnClickListener
-                }
+                    saveUserData(
+                        requireContext(),
+                        registerRequest.userName,
+                        registerRequest.email,
+                        registerRequest.role
+                    )
 
-                if (editTextPasswordAgain.text.length < 6) {
-                    editTextPasswordAgain.error = "Password must be at least 6 characters"
-                    return@setOnClickListener
-                }
-
-                if (editTextPassword.text.toString() != editTextPasswordAgain.text.toString()) {
-                    Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT)
-                        .show()
-                    return@setOnClickListener
-                }
-
-                val registerRequest = RegisterRequest(
-                    userName = username.text.toString().trim(),
-                    email = email.text.toString().trim(),
-                    password = editTextPassword.text.toString().trim(),
-                    matchingPassword = editTextPasswordAgain.text.toString().trim(),
-                    role = roleViewModel.selectedRole.value.toString().trim()
-                )
-                PreferencesManager.saveUserData(
-                    requireContext(), registerRequest.userName,
-                    registerRequest.email, registerRequest.role
-                )
-                authViewModel.response.observe(viewLifecycleOwner) { response ->
-                    response?.let {
-                        PreferencesManager.saveSessionData(requireContext(), it.token, true)
+                    authViewModel.response.observe(viewLifecycleOwner) { response ->
+                        response?.let {
+                            PreferencesManager.saveSessionData(requireContext(), it.token, true)
+                            tokenManager.saveToken(it.token)
+                        }
                     }
+                    findNavController().navigate(R.id.action_registerFragment_home)
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT)
+                        .show()
                 }
-
-                btnRegister.setProgress(0)
-                btnRegister.setProgress(50)
-                btnRegister.setProgress(75)
-                btnRegister.setProgress(100)
-                binding.btnSignIn.setMode(ActionProcessButton.Mode.ENDLESS)
-
-                btnRegister.setProgress(1);
-                authViewModel.postData(registerRequest)
-                findNavController().navigate(R.id.action_registerFragment_home)
-            } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
 
+    }
+    private fun validateInput(
+        username: EditText,
+        email: EditText,
+        password: EditText,
+        confirmPassword: EditText
+    ): Boolean {
+        if (roleViewModel.selectedRole.value.isNullOrEmpty()) {
+            username.error = "Role is required"
+            return false
+        }
+        if (username.text.isNullOrEmpty()) {
+            username.error = "Username is required"
+            return false
+        }
+        if (email.text.isNullOrEmpty()) {
+            email.error = "Email is required"
+            return false
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) {
+            email.error = "Invalid email format"
+            return false
+        }
+        if (password.text.length < 6) {
+            password.error = "Password must be at least 6 characters"
+            return false
+        }
+        if (password.text.toString() != confirmPassword.text.toString()) {
+            Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+
+    private fun loadingAnimation(btnRegister: ActionProcessButton) {
+        btnRegister.setProgress(0)
+        btnRegister.setProgress(50)
+        btnRegister.setProgress(75)
+        btnRegister.setProgress(100)
+        binding.btnSignIn.setMode(ActionProcessButton.Mode.ENDLESS)
+        btnRegister.setProgress(1)
     }
 
     private fun radioButton() {
