@@ -1,6 +1,8 @@
 package com.example.ilmapp.data.api
 
 import com.example.ilmapp.data.model.LoginRequest
+import com.example.ilmapp.data.model.RefreshResponse
+import com.example.ilmapp.data.model.RefreshTokenRequest
 import com.example.ilmapp.data.model.RegisterRequest
 import com.example.ilmapp.data.model.UserResponse
 import retrofit2.Call
@@ -15,4 +17,8 @@ interface AuthenticationApi {
     fun loginUser(
         @Body loginRequest: LoginRequest
     ): Call<UserResponse>
+
+    @POST("/api/auth/refresh-token")
+    fun refreshToken(@Body refreshTokenRequest: RefreshTokenRequest): Call<RefreshResponse>
+
 }

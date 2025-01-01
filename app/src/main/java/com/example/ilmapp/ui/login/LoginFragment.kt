@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dd.processbutton.iml.ActionProcessButton
 import com.example.ilmapp.R
-import com.example.ilmapp.config.PreferencesManager.saveSessionData
+import com.example.ilmapp.config.PreferencesManager
 import com.example.ilmapp.data.model.AuthViewModel
+import com.example.ilmapp.data.model.AuthViewModelFactory
 import com.example.ilmapp.data.model.LoginRequest
 import com.example.ilmapp.data.model.TokenManager
 import com.example.ilmapp.databinding.FragmentLoginBinding
@@ -23,14 +24,17 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
     private var isPasswordVisible = false
     private lateinit var password: PasswordEditText
-    private val authViewModel: AuthViewModel by viewModels()
     private lateinit var tokenManager: TokenManager
+    private lateinit var authViewModel: AuthViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         tokenManager = TokenManager(requireContext())
+        val factory = AuthViewModelFactory(requireContext())
+        authViewModel = ViewModelProvider(this, factory)[AuthViewModel::class.java]
 
         return binding.root
     }
@@ -42,7 +46,7 @@ class LoginFragment : Fragment() {
         val email = binding.edtLoginEmail
         val editTextPassword = binding.edtLoginPassword
         password = PasswordEditText(requireContext(), null)
-        
+
         val btLogin: ActionProcessButton = binding.btnLogin
         btLogin.setMode(ActionProcessButton.Mode.PROGRESS)
         gotoSignup.setOnClickListener {
@@ -63,6 +67,7 @@ class LoginFragment : Fragment() {
             }
             loadingAnimation(btLogin)
             loginUser(emailInput, passwordInput)
+
         }
     }
 
@@ -74,28 +79,24 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setMode(ActionProcessButton.Mode.ENDLESS)
         btnLogin.setProgress(1)
     }
+
     private fun loginUser(email: String, password: String) {
         val loginRequest = LoginRequest(email, password)
-        authViewModel.loginUser(loginRequest)
-        authViewModel.response.observe(viewLifecycleOwner) { response ->
-            if (response != null && response.token.isNotEmpty()) {
-                tokenManager.saveToken(response.token)
-                saveSessionData(requireContext(), response.token, true)
-                findNavController().navigate(R.id.action_loginFragment_home)
-            }
-        }
+        authViewModel.login(loginRequest)
+        val access: String? = tokenManager.getToken()
 
-        authViewModel.error.observe(viewLifecycleOwner) { error ->
-            error?.let {
-                binding.btnLogin.setProgress(0)
-                binding.btnLogin.setMode(ActionProcessButton.Mode.ENDLESS)
-                binding.btnLogin.error
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            }
-        }
+        val name = tokenManager.decodeJwtToken(access.toString())[0].name
+        val role = tokenManager.decodeJwtToken(access.toString())[0].roles[0]
+        PreferencesManager.saveUserData(
+            requireContext(),
+            name,
+            email,
+            role
+        )
+        PreferencesManager.saveSessionData(requireContext(), access.toString(), true)
 
+        findNavController().navigate(R.id.action_loginFragment_home)
     }
-
 
 
 //fun navigateBasedOnRole(context: Context, role: String?) {

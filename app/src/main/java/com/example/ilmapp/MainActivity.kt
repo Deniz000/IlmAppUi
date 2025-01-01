@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigateBasedOnSession() {
         val (authToken, isLoggedIn) = PreferencesManager.getSessionData(this)
-
-        if (isLoggedIn && !authToken.isNullOrEmpty()) {
+//isLoggedIn && !authToken.isNullOrEmpty()
+        if (false) {
             navController.navigate(R.id.action_loginFragment_home)
 
         } else {

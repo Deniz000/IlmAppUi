@@ -30,13 +30,15 @@ object RetrofitInstance {
             .create(AuthenticationApi::class.java)
     }
 
-    val authenticatedApi: UserApi by lazy {
+    private val instanceWithToken: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(UserApi::class.java)
+    }
+    fun <T> createApi(apiClass: Class<T>): T {
+        return instanceWithToken.create(apiClass)
     }
 
 }

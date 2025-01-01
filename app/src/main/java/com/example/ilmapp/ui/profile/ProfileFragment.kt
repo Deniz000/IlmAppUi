@@ -9,23 +9,21 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ilmapp.R
 import com.example.ilmapp.config.PreferencesManager
-import com.example.ilmapp.data.model.AuthViewModel
 import com.example.ilmapp.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private val authViewModel: AuthViewModel by viewModels()
 
     val profileDetails = listOf(
         Triple(R.drawable.edit_icon,"Edit", "Your Personal Information"),
         Triple(R.drawable.email_listv, "Email", "michael@example.com"),
         Triple(R.drawable.call2_icon, "Phone Number","+90 (209) 555-0104"),
+        Triple(R.drawable.logout, "Log out",""),
     )
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +59,7 @@ class ProfileFragment : Fragment() {
                 view.setOnClickListener {
                     when (position) {
                         0 ->findNavController().navigate(R.id.navigation_settings)
+                        3 ->findNavController().navigate(R.id.loginFragment)
                         else -> null
                     }
                 }
