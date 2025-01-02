@@ -50,18 +50,13 @@ class AuthViewModel(context: Context) : ViewModel() {
             onError = { error -> _error.value = error })
     }
 
-    fun updateUser(userId: Long, request: UserUpdateRequest) {
-        apiRepository.updateUSER(userId,
-            request,
-            onResponse = { profile -> _userInformation.value = profile!! },
-            onError = { error -> _error.value = error })
-    }
-    fun updateUsera(userId: Long, request: UserUpdateRequest, isExpired: Boolean) {
+
+    fun updateUsera(request: UserUpdateRequest, isExpired: Boolean) {
         apiRepository.makeAuthenticatedApiCall(
             token = tokenManager.getToken() ?: "",
             isExpired = isExpired,
             apiCall = { RetrofitInstance.createApi(UserApi::class.java)
-                .updateUser(userId, request) },
+                .updateUser(request) },
             onSuccess = { profile -> _userInformation.value = profile.body()!! },
             onError = { error -> _error.value = error }
         )

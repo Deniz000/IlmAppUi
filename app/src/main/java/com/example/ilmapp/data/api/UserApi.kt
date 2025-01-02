@@ -13,8 +13,8 @@ interface UserApi {
     @GET("/api/users/{id}")
     fun getUserInformation(@Path("id") userId: Long): Call<UserProfileResponse>
 
-    @PUT("/api/users/{id}")
-    fun updateUser(@Path("id") userId: Long, @Body request: UserUpdateRequest): Call<UserProfileResponse>
+    @PUT("/api/users/update")
+    fun updateUser(@Body request: UserUpdateRequest): Call<UserProfileResponse>
 
     @POST("/api/auth/logout")
     fun logout(): Call<Void>

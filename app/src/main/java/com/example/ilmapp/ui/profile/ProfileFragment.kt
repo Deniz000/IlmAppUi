@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.ilmapp.R
-import com.example.ilmapp.config.PreferencesManager
+import com.example.ilmapp.config.PreferencesManager.getUserData
 import com.example.ilmapp.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
@@ -33,11 +33,11 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val profileName = binding.profileName
-        val profileRole = binding.profileEmail
+        val profileEmail = binding.profileEmail
 
-         PreferencesManager.getUserData(requireContext()).let { (username, email, _) ->
+         getUserData(requireContext()).let { (username, email, _) ->
              profileName.text = username
-             profileRole.text = email
+             profileEmail.text = email
          }
 
         val adapter = object : ArrayAdapter<Triple<Int, String, String>>(

@@ -85,8 +85,9 @@ class LoginFragment : Fragment() {
         authViewModel.login(loginRequest)
         val access: String? = tokenManager.getToken()
 
-        val name = tokenManager.decodeJwtToken(access.toString())[0].name
-        val role = tokenManager.decodeJwtToken(access.toString())[0].roles[0]
+        val list = tokenManager.decodeJwtToken(access.toString())
+        val name = list[0].name
+        val role = list[0].roles
         PreferencesManager.saveUserData(
             requireContext(),
             name,
@@ -99,7 +100,7 @@ class LoginFragment : Fragment() {
     }
 
 
-//fun navigateBasedOnRole(context: Context, role: String?) {
+ //fun navigateBasedOnRole(context: Context, role: String?) {
 //    when (role) {
 //        "öğrenci" -> {
 //            // Öğrenciye özel ekrana yönlendir

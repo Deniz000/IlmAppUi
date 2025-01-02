@@ -4,6 +4,7 @@ import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Response
 
+// Token'ı, Bearer token olarak header kısmına ekliyoruz
 class AuthInterceptor(private val tokenManager: TokenManager) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val token = tokenManager.getToken()

@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dd.processbutton.iml.ActionProcessButton
 import com.example.ilmapp.R
-import com.example.ilmapp.config.PreferencesManager.saveSessionData
 import com.example.ilmapp.config.PreferencesManager.saveUserData
 import com.example.ilmapp.data.api.RetrofitInstance
 import com.example.ilmapp.data.model.AuthViewModel
@@ -82,11 +81,17 @@ class RegisterFragment : Fragment() {
 
                     loadingAnimation(btnRegister)
                     authViewModel.register(registerRequest)
+                    saveUserData(
+                        requireContext(),
+                        registerRequest.userName,
+                        registerRequest.email,
+                        registerRequest.role
+                    )
 
                     authViewModel.response.observe(viewLifecycleOwner) { accessToken ->
                         accessToken?.let {
                             val list = tokenManager.decodeJwtToken(accessToken)[0]
-                            val role = list.roles[0]
+                            val role = list.roles
                             val name = list.name
                             saveUserData(
                                 requireContext(),
@@ -94,7 +99,6 @@ class RegisterFragment : Fragment() {
                                 registerRequest.email,
                                 role
                             )
-                            saveSessionData(requireContext(), accessToken, true)
                             tokenManager.saveToken(accessToken)
                         }
                     }

@@ -10,7 +10,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.ilmapp"
-        minSdk = 23 // Minimum SDK, Android 6.0 (Marshmallow)
+        minSdk = 33
+        // Minimum SDK, Android 6.0 (Marshmallow)
         targetSdk = 35 // Android 13'e uygun olmalı.
         versionCode = 1
         versionName = "1.0"

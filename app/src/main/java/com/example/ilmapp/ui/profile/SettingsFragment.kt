@@ -58,13 +58,13 @@ class SettingsFragment : Fragment() {
         btnSave.setOnClickListener{
             val registerRequest = UserUpdateRequest(
                 id= id,
-                userName = profileUsername.text.toString().trim(),
+                userName = profileUsername.text.toString().trim() ?: profileUsername.hint,
                 email = profileEmail.text.toString().trim(),
                 password = profilePassword.text.toString().trim(),
             )
             Log.e("Profile", "Updating ID: $id")
             RetrofitInstance.init(requireContext())
-            authViewModel.updateUsera(id, registerRequest, isExpired)
+            authViewModel.updateUsera(registerRequest, isExpired)
             Log.e("Profile", "Updated ID: $id")
             findNavController().navigateUp()
 

@@ -32,22 +32,26 @@ class TokenManager(context: Context) {
 
 
     fun decodeJwtToken(token: String): MutableList<UserData> {
-        val userId: Long
-        val name: String
-        val roles: List<String>
-        val isExpired: Boolean
         val list: MutableList<UserData> = mutableListOf()
         try {
             val jwt = JWT(token)
 
-            userId = jwt.getClaim("userId").asLong()!!
-            name = jwt.getClaim("name").asString()!!
-            roles = jwt.getClaim("role").asList(String::class.java)
-            isExpired = jwt.isExpired(24)
-            list.add(UserData(userId, name, roles, isExpired))
+            val userId = jwt.getClaim("userId").asLong()!!
+            val name = jwt.getClaim("name").asString()!!
+            val isExpired = jwt.isExpired(24)
+            val rolesJson = jwt.getClaim("role").asArray(Role::class.java)
+            var firstRole = ""
+            if (rolesJson != null && rolesJson.isNotEmpty()) {
+                firstRole = rolesJson[0].authority
+                Log.e("Role","First role authority: $firstRole")
+            } else {
+                Log.e("Role","Role listesi boş veya null")
+            }
+
+            list.add(UserData(userId, name, firstRole, isExpired))
 
             println("UserId: $userId")
-            println("roles: $roles")
+            println("roles: $firstRole")
             println("Is token expired? $isExpired")
         } catch (e: Exception) {
             println("Error decoding token: ${e.message}")

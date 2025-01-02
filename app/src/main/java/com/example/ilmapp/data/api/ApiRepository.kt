@@ -3,12 +3,10 @@ package com.example.ilmapp.data.api
 import android.content.Context
 import android.util.Log
 import com.example.ilmapp.data.model.LoginRequest
-import com.example.ilmapp.data.model.RefreshResponse
-import com.example.ilmapp.data.model.RefreshTokenRequest
 import com.example.ilmapp.data.model.RegisterRequest
 import com.example.ilmapp.data.model.TokenManager
+import com.example.ilmapp.data.model.TokensResponse
 import com.example.ilmapp.data.model.UserProfileResponse
-import com.example.ilmapp.data.model.UserResponse
 import com.example.ilmapp.data.model.UserUpdateRequest
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,14 +17,15 @@ class ApiRepository(private val tokenManager: TokenManager) {
 
     fun loginUser(
         request: LoginRequest,
-        onResponse: (UserResponse?) -> Unit,
+        onResponse: (TokensResponse?) -> Unit,
         onError: (String) -> Unit
     ) {
         val call = RetrofitInstance.instance.loginUser(request)
-        call.enqueue(object : Callback<UserResponse> {
-            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+        call.enqueue(object : Callback<TokensResponse> {
+            override fun onResponse(call: Call<TokensResponse>, response: Response<TokensResponse>) {
                 if (response.isSuccessful) {
                     response.body()?.let {
+
                         tokenManager.saveToken(it.accessToken) // Access token
                         if (it.refreshToken.isNotEmpty()) {
                             tokenManager.saveRefreshToken(it.refreshToken) // Refresh token
@@ -39,19 +38,19 @@ class ApiRepository(private val tokenManager: TokenManager) {
                 }
             }
 
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TokensResponse>, t: Throwable) {
             }
         })
     }
 
     fun registerUser(
         request: RegisterRequest,
-        onResponse: (UserResponse?) -> Unit,
+        onResponse: (TokensResponse?) -> Unit,
         onError: (String) -> Unit
     ) {
         val call = RetrofitInstance.instance.registerUser(request)
-        call.enqueue(object : Callback<UserResponse> {
-            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+        call.enqueue(object : Callback<TokensResponse> {
+            override fun onResponse(call: Call<TokensResponse>, response: Response<TokensResponse>) {
                 if (response.isSuccessful) {
                     response.body()?.let {
                         tokenManager.saveToken(it.accessToken) // Access token
@@ -65,7 +64,7 @@ class ApiRepository(private val tokenManager: TokenManager) {
                 }
             }
 
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TokensResponse>, t: Throwable) {
                 onError("Register failure: ${t.message}")
             }
         })
@@ -101,13 +100,12 @@ class ApiRepository(private val tokenManager: TokenManager) {
     }
 
     fun updateUSER(
-        userId: Long,
         request: UserUpdateRequest,
         onResponse: (UserProfileResponse?) -> Unit, onError: (String) -> Unit
     ) {
         val token = tokenManager.getToken()
         if (token != null) {
-            val call = RetrofitInstance.createApi(userApiClass).updateUser(userId, request)
+            val call = RetrofitInstance.createApi(userApiClass).updateUser(request)
             call.enqueue(object : Callback<UserProfileResponse> {
                 override fun onResponse(
                     call: Call<UserProfileResponse>,
@@ -137,7 +135,7 @@ class ApiRepository(private val tokenManager: TokenManager) {
         onError: (String) -> Unit
     ) {
         if (isExpired) {
-            refreshJwtToken(token) { success, newAccessToken ->
+            refreshJwtToken { success, newAccessToken ->
                 if (success && !newAccessToken.isNullOrEmpty()) {
                     // Yeni token ile API çağrısı
                     apiCallWithToken(apiCall, newAccessToken, onSuccess, onError)
@@ -157,8 +155,7 @@ class ApiRepository(private val tokenManager: TokenManager) {
         onSuccess: (Response<T>) -> Unit,
         onError: (String) -> Unit
     ) {
-        tokenManager.saveToken(token)
-        val call = apiCall(token) // Token, API çağrısına parametre olarak iletiliyor
+        val call = apiCall(token)
         call.enqueue(object : Callback<T> {
             override fun onResponse(call: Call<T>, response: Response<T>) {
                 if (response.isSuccessful) {
@@ -174,21 +171,17 @@ class ApiRepository(private val tokenManager: TokenManager) {
         })
     }
 
-    fun refreshJwtToken(token: String, onTokenRefreshed: (Boolean, String?) -> Unit) {
-        val request = RefreshTokenRequest(token)
-        val apiService = RetrofitInstance.createApi(AuthenticationApi::class.java)
-
-        val call = apiService.refreshToken(request)
-        call.enqueue(object : Callback<RefreshResponse> {
+    private fun refreshJwtToken(onTokenRefreshed: (Boolean, String?) -> Unit) {
+        val call = RetrofitInstance.createApi(AuthenticationApi::class.java).refreshToken()
+        call.enqueue(object : Callback<TokensResponse> {
             override fun onResponse(
-                call: Call<RefreshResponse>,
-                response: Response<RefreshResponse>
+                call: Call<TokensResponse>,
+                response: Response<TokensResponse>
             ) {
                 if (response.isSuccessful) {
                     val newAccessToken = response.body()?.accessToken
                     val newRefreshToken = response.body()?.refreshToken
 
-                    // Yeni Access Token ve Refresh Token'ı kaydet
                     if (!newAccessToken.isNullOrEmpty()) {
                         tokenManager.saveToken(newAccessToken)
                     }
@@ -202,7 +195,7 @@ class ApiRepository(private val tokenManager: TokenManager) {
                 }
             }
 
-            override fun onFailure(call: Call<RefreshResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TokensResponse>, t: Throwable) {
                 onTokenRefreshed(false, null)
             }
         })
