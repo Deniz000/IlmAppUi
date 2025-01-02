@@ -10,7 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dd.processbutton.iml.ActionProcessButton
 import com.example.ilmapp.R
-import com.example.ilmapp.config.PreferencesManager
+import com.example.ilmapp.config.PreferencesManager.saveSessionData
+import com.example.ilmapp.config.PreferencesManager.saveUserData
 import com.example.ilmapp.data.model.AuthViewModel
 import com.example.ilmapp.data.model.AuthViewModelFactory
 import com.example.ilmapp.data.model.LoginRequest
@@ -83,19 +84,16 @@ class LoginFragment : Fragment() {
     private fun loginUser(email: String, password: String) {
         val loginRequest = LoginRequest(email, password)
         authViewModel.login(loginRequest)
-        val access: String? = tokenManager.getToken()
-
-        val list = tokenManager.decodeJwtToken(access.toString())
-        val name = list[0].name
-        val role = list[0].roles
-        PreferencesManager.saveUserData(
-            requireContext(),
-            name,
-            email,
-            role
-        )
-        PreferencesManager.saveSessionData(requireContext(), access.toString(), true)
-
+        authViewModel.response.observe(viewLifecycleOwner) {response->
+            response.let {
+                val accessToken = it!!
+                val list = tokenManager.decodeJwtToken(accessToken)
+                val name = list[0].name
+                val role = list[0].roles
+                saveUserData(requireContext(), name, email, role)
+                saveSessionData(requireContext(), it, true)
+            }
+        }
         findNavController().navigate(R.id.action_loginFragment_home)
     }
 

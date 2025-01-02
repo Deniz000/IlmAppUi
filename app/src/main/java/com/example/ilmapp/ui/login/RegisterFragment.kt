@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dd.processbutton.iml.ActionProcessButton
 import com.example.ilmapp.R
+import com.example.ilmapp.config.PreferencesManager.saveSessionData
 import com.example.ilmapp.config.PreferencesManager.saveUserData
 import com.example.ilmapp.data.api.RetrofitInstance
 import com.example.ilmapp.data.model.AuthViewModel
@@ -80,29 +81,7 @@ class RegisterFragment : Fragment() {
                     )
 
                     loadingAnimation(btnRegister)
-                    authViewModel.register(registerRequest)
-                    saveUserData(
-                        requireContext(),
-                        registerRequest.userName,
-                        registerRequest.email,
-                        registerRequest.role
-                    )
-
-                    authViewModel.response.observe(viewLifecycleOwner) { accessToken ->
-                        accessToken?.let {
-                            val list = tokenManager.decodeJwtToken(accessToken)[0]
-                            val role = list.roles
-                            val name = list.name
-                            saveUserData(
-                                requireContext(),
-                                name,
-                                registerRequest.email,
-                                role
-                            )
-                            tokenManager.saveToken(accessToken)
-                        }
-                    }
-                    findNavController().navigate(R.id.action_registerFragment_home)
+                    registerUser(registerRequest)
                 } catch (e: Exception) {
                     Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT)
                         .show()
@@ -111,6 +90,24 @@ class RegisterFragment : Fragment() {
         }
 
     }
+
+    private fun registerUser(
+        registerRequest: RegisterRequest
+    ) {
+        authViewModel.register(registerRequest)
+        authViewModel.response.observe(viewLifecycleOwner) { response ->
+            response.let {
+                val accessToken = it!!
+                val list = tokenManager.decodeJwtToken(accessToken)
+                val name = list[0].name
+                val role = list[0].roles
+                saveUserData(requireContext(), name, registerRequest.email, role)
+                saveSessionData(requireContext(), it, true)
+            }
+        }
+        findNavController().navigate(R.id.action_registerFragment_home)
+    }
+
     private fun validateInput(
         username: EditText,
         email: EditText,
